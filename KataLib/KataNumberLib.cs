@@ -8,6 +8,19 @@ namespace CODEWARS
         public static long GCD(long a, long b) => b == 0 ? a : GCD(b, a % b);
         public static int CountDigits(long n) => n.ToString().Length;
 
+        public static ulong Factorial(int value)
+        {
+            ulong result = 1;
+
+            while (value > 1)
+            {
+                result *= (uint)value;
+                value--;
+            }
+
+            return result;
+        }
+
         public static bool IsPrimeNumber(long num)
         {
             if (num % 2 == 0)

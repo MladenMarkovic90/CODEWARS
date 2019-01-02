@@ -8,6 +8,8 @@ namespace CODEWARS
 {
     public static class Kata5
     {
+        #region Finished
+
         //https://www.codewars.com/kata/rot13-1
         public static string Rot13(string message)
         {
@@ -38,7 +40,7 @@ namespace CODEWARS
 
             return result.ToString();
         }
-        
+
         //https://www.codewars.com/kata/directions-reduction
         public static string[] dirReduc(string[] arr)
         {
@@ -111,7 +113,7 @@ namespace CODEWARS
             {
                 result += prevDistance;
             }
-            
+
             return (int)result;
         }
 
@@ -153,5 +155,126 @@ namespace CODEWARS
 
             return builder.ToString();
         }
+
+        //https://www.codewars.com/kata/weight-for-weight
+        public static string orderWeight(string strng)
+        {
+            List<Tuple<string, int>> result = new List<Tuple<string, int>>();
+
+            foreach (string item in strng.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                result.Add(new Tuple<string, int>(item, KataStringLib.SumDigits(item)));
+            }
+
+            return string.Join(" ", result.OrderBy(x => x.Item2).ThenBy(x => x.Item1).Select(x => x.Item1));
+        }
+
+        //https://www.codewars.com/kata/first-non-repeating-character
+        public static string FirstNonRepeatingLetter(string s)
+        {
+            Dictionary<char, int> result = new Dictionary<char, int>();
+
+            foreach (char c in s)
+            {
+                if (result.Keys.Contains(char.ToUpper(c)))
+                {
+                    result[char.ToUpper(c)]++;
+                }
+                else if (result.Keys.Contains(char.ToLower(c)))
+                {
+                    result[char.ToLower(c)]++;
+                }
+                else
+                {
+                    result.Add(c, 0);
+                }
+            }
+
+            if (result.Any(x => x.Value == 0))
+            {
+                return result.First(x => x.Value == 0).Key.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        //https://www.codewars.com/kata/closest-and-smallest
+        public static int[][] Closest(string strng)
+        {
+            if (string.IsNullOrEmpty(strng))
+            {
+                return new int[0][];
+            }
+
+            List<Tuple<string, int, int>> list = new List<Tuple<string, int, int>>();
+
+            int index = 0;
+            foreach (string item in strng.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                list.Add(new Tuple<string, int, int>(item, KataStringLib.SumDigits(item), index++));
+            }
+
+            List<Tuple<string, int, int>> oList = list.OrderBy(x => x.Item2).ThenBy(x => x.Item3).ToList();
+
+            int index1 = 0;
+            int index2 = 1;
+            int minDiff = int.MaxValue;
+
+            for (int i = 1; i < oList.Count; i++)
+            {
+                int diff = oList[i].Item2 - oList[i - 1].Item2;
+                
+                if (diff < minDiff)
+                {
+                    index1 = i - 1;
+                    index2 = i;
+                    minDiff = diff;
+                }
+            }
+
+            int[][] result = new int[2][];
+
+            result[0] = new int[3]
+            {
+                oList[index1].Item2,
+                oList[index1].Item3,
+                int.Parse(oList[index1].Item1)
+            };
+
+            result[1] = new int[3]
+            {
+                oList[index2].Item2,
+                oList[index2].Item3,
+                int.Parse(oList[index2].Item1)
+            };
+
+            return result;
+        }
+
+        //https://www.codewars.com/kata/eulers-method-for-a-first-order-ode
+        public static double ExEuler(int nb)
+        {
+            double sumA = 0;
+            double xk = 0;
+            double yk = 1;
+            double zk = 1;
+            double h = 1.0 / nb;
+
+            for (int n = 1; n <= nb; n++)
+            {
+                double dydx = 2 - Math.Exp(-4 * xk) - 2 * yk;
+                xk = (double)n / nb;
+                yk = yk + dydx * h;
+                zk = 1 + (0.5 * Math.Exp(-4 * xk)) - (0.5 * Math.Exp(-2 * xk));
+                sumA += Math.Abs(yk - zk) / zk;
+            }
+
+            sumA = sumA / (nb + 1);
+            double part1 = Math.Truncate(sumA);
+
+            return part1 + Math.Truncate((sumA - part1) * 1_000_000) / 1_000_000;
+        }
+
+        #endregion Finished
     }
 }

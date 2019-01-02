@@ -4,7 +4,7 @@ using System.Linq;
 
 //https://www.codewars.com/kata/sortable-poker-hands
 // This version is optimized. It can be more optimized, but it would loss readability and some functions.
-namespace CODEWARS.Kata4_PokerHand2
+namespace CODEWARS.Kata4_PokerHand_2
 {
     public enum HandType
     {

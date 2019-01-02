@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 //https://www.codewars.com/kata/ranking-poker-hands
-namespace CODEWARS.Kata4_PokerHand1
+namespace CODEWARS.Kata4_PokerHand_1
 {
     public enum HandType
     {

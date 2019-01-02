@@ -7,6 +7,8 @@ namespace CODEWARS
 {
     public class Kata6
     {
+        #region Finished
+
         //https://www.codewars.com/kata/roman-numerals-encoder
         public static string Solution(int n)
         {
@@ -59,8 +61,8 @@ namespace CODEWARS
             return result;
         }
 
-        /*
         //https://www.codewars.com/kata/decode-the-morse-code
+        /*
         public static string Decode(string morseCode)
         {
             StringBuilder result = new StringBuilder();
@@ -486,5 +488,98 @@ namespace CODEWARS
 
             return builder.ToString();
         }
+
+        //https://www.codewars.com/kata/financing-a-purchase
+        public static string Amort(double rate, int bal, int term, int num_payments)
+        {
+            double r = rate / (1_200);
+            double d = 1 - Math.Pow(1 + r, -term);
+            double n = r * bal;
+            double c = n / d;
+            double princ = c - n;
+            double balance = bal - princ;
+
+            for (int i = 1; i < num_payments; i++)
+            {
+                n = r * balance;
+                princ = c - n;
+                balance = balance - princ;
+            }
+
+            return $"num_payment {num_payments} c {Math.Round(c, 0)} princ {Math.Round(princ, 0)} int {Math.Round(n, 0)} balance {Math.Round(balance, 0)}";
+        }
+
+        //https://www.codewars.com/kata/simple-fun-number-79-delete-a-digit
+        public int DeleteDigit(int n)
+        {
+            string number = n.ToString();
+            int forDelete = 0;
+
+            for (int i = 1; i < number.Length; i++)
+            {
+                if (number[forDelete] < number[i])
+                {
+                    break;
+                }
+                else
+                {
+                    forDelete = i;
+                }
+            }
+
+            return int.Parse(number.Remove(forDelete, 1));
+        }
+
+        //https://www.codewars.com/kata/meeting
+        public static string Meeting(string s)
+        {
+            StringBuilder builder = new StringBuilder();
+            List<Tuple<string, string>> list = new List<Tuple<string, string>>();
+
+            foreach (string item in s.ToUpper().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                int index = item.IndexOf(':');
+                list.Add(new Tuple<string, string>(item.Substring(0, index), item.Remove(0, index + 1)));
+            }
+
+            foreach (Tuple<string, string> item in list.OrderBy(x => x.Item2).ThenBy(x => x.Item1))
+            {
+                builder.Append($"({item.Item2}, {item.Item1})");
+            }
+
+            return builder.ToString();
+        }
+
+        //https://www.codewars.com/kata/errors-histogram
+        public static string hist(string s)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            dict.Add('u', 0);
+            dict.Add('w', 0);
+            dict.Add('x', 0);
+            dict.Add('z', 0);
+
+            foreach (char c in s)
+            {
+                if (dict.Keys.Contains(c))
+                {
+                    dict[c]++;
+                }
+            }
+
+            List<string> errors = new List<string>();
+
+            foreach (KeyValuePair<char, int> item in dict)
+            {
+                if (item.Value > 0)
+                {
+                    errors.Add($"{item.Key}{new string(' ', 2)}{item.Value.ToString().PadRight(6, ' ')}{new string('*', item.Value)}");
+                }
+            }
+
+            return string.Join("\r", errors);
+        }
+
+        #endregion Finished
     }
 }
